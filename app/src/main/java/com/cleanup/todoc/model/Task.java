@@ -3,24 +3,40 @@ package com.cleanup.todoc.model;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Index;
+import androidx.room.PrimaryKey;
 
 import java.util.Comparator;
+
+import static androidx.room.ForeignKey.CASCADE;
 
 /**
  * <p>Model for the tasks of the application.</p>
  *
  * @author Gaëtan HERFRAY
  */
+@Entity(tableName = "task", foreignKeys = @ForeignKey(entity = Project.class,
+        parentColumns = "id",
+        childColumns = "project_id"))
 public class Task {
     /**
      * The unique identifier of the task
      */
+    @PrimaryKey(autoGenerate = true)
     private long id;
 
     /**
      * The unique identifier of the project associated to the task
      */
+    @ColumnInfo(name = "project_id", index = true)
     private long projectId;
+
+    public long getProjectId() {
+        return projectId;
+    }
 
     /**
      * The name of the task
@@ -28,11 +44,13 @@ public class Task {
     // Suppress warning because setName is called in constructor
     @SuppressWarnings("NullableProblems")
     @NonNull
+    @ColumnInfo(name = "name", index = true)
     private String name;
 
     /**
      * The timestamp when the task has been created
      */
+    @ColumnInfo(name = "creationTimestamp", index = true)
     private long creationTimestamp;
 
     /**
@@ -85,6 +103,10 @@ public class Task {
     @Nullable
     public Project getProject() {
         return Project.getProjectById(projectId);
+    }
+
+    public long getCreationTimestamp() {
+        return creationTimestamp;
     }
 
     /**
