@@ -8,6 +8,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.cleanup.todoc.model.Project;
 import com.cleanup.todoc.model.Task;
 
 import java.util.List;
@@ -26,6 +27,21 @@ public interface TaskDao {
 
     @Query("SELECT * FROM Task WHERE project_id = :projectId")
     Cursor getTasksWithCursor(long projectId);
+
+    @Query("SELECT * FROM Task")
+    LiveData<List<Task>> getTasks();
+
+    @Query("SELECT * FROM Task ORDER BY name ASC")
+    LiveData<List<Task>> getTasksOrderByNameASC();
+
+    @Query("SELECT * FROM Task ORDER BY name DESC")
+    LiveData<List<Task>> getTasksOrderByNameDesc();
+
+    @Query("SELECT * FROM Task ORDER BY creationTimestamp ASC")
+    LiveData<List<Task>> getTasksOrderByCreationTimeOldestFirst();
+
+    @Query("SELECT * FROM Task ORDER BY creationTimestamp DESC")
+    LiveData<List<Task>> getTasksOrderByCreationTimeRecentestFirst();
 
     @Update
     int updateTask(Task task);
