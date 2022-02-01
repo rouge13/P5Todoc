@@ -109,13 +109,15 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         this.taskViewModel.init();
     }
 
-    // -- Get all the tasks
+    // -- Get all the projects
     private void getProjects() {
-        this.taskViewModel.getProjects().observe(this, this:updateProjectsList);
+        this.taskViewModel.getProjects();
     }
 
-    private void updateProjectsList() {}
-
+    // -- Get all the tasks
+    private void getTasks() {
+        this.taskViewModel.getTasks("NoSorting");
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -136,6 +138,8 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
             }
         });
         configureViewModel();
+        getProjects();
+        getTasks();
     }
 
     @Override
@@ -256,18 +260,21 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
             listTasks.setVisibility(View.VISIBLE);
             switch (sortMethod) {
                 case ALPHABETICAL:
-                    Collections.sort(tasks, new Task.TaskAZComparator());
+//                    Collections.sort(tasks, new Task.TaskAZComparator());
+                    taskViewModel.getTasks("OrderByNameAsc");
                     break;
                 case ALPHABETICAL_INVERTED:
-                    Collections.sort(tasks, new Task.TaskZAComparator());
+//                    Collections.sort(tasks, new Task.TaskZAComparator());
+                    taskViewModel.getTasks("OrderByNameDesc");
                     break;
                 case RECENT_FIRST:
-                    Collections.sort(tasks, new Task.TaskRecentComparator());
+//                    Collections.sort(tasks, new Task.TaskRecentComparator());
+                    taskViewModel.getTasks("OrderByCreationTimeRecentestFirst");
                     break;
                 case OLD_FIRST:
-                    Collections.sort(tasks, new Task.TaskOldComparator());
+//                    Collections.sort(tasks, new Task.TaskOldComparator());
+                    taskViewModel.getTasks("OrderByCreationTimeOldestFirst");
                     break;
-
             }
             adapter.updateTasks(tasks);
         }

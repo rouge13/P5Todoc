@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Database;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Room;
@@ -24,6 +25,7 @@ import java.util.concurrent.Executors;
 public abstract class SaveMyTaskDatabase extends RoomDatabase {
     // --- SINGLETON ---
     private static volatile SaveMyTaskDatabase INSTANCE;
+    private static final String DB_NAME = "MyDatabase.db";
 
     // --- DAO ---
     public abstract TaskDao taskDao();
@@ -36,7 +38,7 @@ public abstract class SaveMyTaskDatabase extends RoomDatabase {
             synchronized (SaveMyTaskDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                            SaveMyTaskDatabase.class, "MyDatabase.db")
+                            SaveMyTaskDatabase.class, DB_NAME)
                             .addCallback(prepopulateDatabase())
                             .build();
 

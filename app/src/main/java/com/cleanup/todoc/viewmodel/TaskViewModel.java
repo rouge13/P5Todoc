@@ -42,16 +42,28 @@ public class TaskViewModel extends ViewModel {
     // -------------
     // FOR PROJECTS
     // -------------
-        public LiveData<List<Project>> getProjects(){
-            return mProjects;
-        }
+    public LiveData<List<Project>> getProjects(){
+        return mProjects;
+    }
 
     // -------------
     // FOR TASK
     // -------------
 
-    public LiveData<List<Task>> getTask(long projectId) {
-        return taskDataSource.getTask(projectId);
+    public LiveData<List<Task>> getTasks(String choiceSelected) {
+        switch (choiceSelected) {
+            case "NoSorting":
+                return taskDataSource.getTasks();
+            case "OrderByNameAsc":
+                return taskDataSource.getTasksOrderByNameASC();
+            case "OrderByNameDesc":
+                return taskDataSource.getTasksOrderByNameDesc();
+            case "OrderByCreationTimeOldestFirst":
+                return taskDataSource.getTasksOrderByCreationTimeOldestFirst();
+            case "OrderByCreationTimeRecentestFirst":
+                return taskDataSource.getTasksOrderByCreationTimeRecentestFirst();
+        }
+        return taskDataSource.getTasks();
     }
 
     public void createTask(Task task) {
@@ -59,6 +71,10 @@ public class TaskViewModel extends ViewModel {
             taskDataSource.createTask(task);
         });
     }
+
+
+
+
 
     public void deleteTask(Task task) {
         executor.execute(() -> taskDataSource.deleteTask(task));
