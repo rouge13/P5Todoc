@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
      */
 //    private final Project[] allProjects = Project.getAllProjects();
     private List<Project> allProjects;
+    private List<Task> allTasks;
 
     /**
      * List of all current tasks of the application
@@ -111,13 +112,19 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
 
     // -- Get all the projects
     private void getProjects() {
-        this.taskViewModel.getProjects();
+        this.taskViewModel.getProjects().observe(this,this::updateProjects);
     }
 
-    // -- Get all the tasks
-    private void getTasks() {
-        this.taskViewModel.getTasks("NoSorting");
+    private void updateProjects(List<Project> projects) {
+        allProjects = projects;
     }
+
+    // -- Get all the tasks without ordering
+    private void getTasks() {
+        this.taskViewModel.getTasks().observe(this, this::updateTasks);
+    }
+
+//    private void getTasks
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -154,24 +161,30 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
 
         if (id == R.id.filter_alphabetical) {
             sortMethod = SortMethod.ALPHABETICAL;
+//            taskViewModel.getTasksOrderByNameASC();
         } else if (id == R.id.filter_alphabetical_inverted) {
             sortMethod = SortMethod.ALPHABETICAL_INVERTED;
+//            taskViewModel.getTasksOrderByNameDesc();
         } else if (id == R.id.filter_oldest_first) {
             sortMethod = SortMethod.OLD_FIRST;
+//            taskViewModel.getTasksOrderByCreationTimeOldestFirst();
         } else if (id == R.id.filter_recent_first) {
             sortMethod = SortMethod.RECENT_FIRST;
+//            taskViewModel.getTasksOrderByCreationTimeRecentestFirst();
         }
 
         updateTasks();
+//        getTasks();
+
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onDeleteTask(Task task) {
 //        tasks.remove(task);
-//        updateTasks();
         this.taskViewModel.deleteTask(task);
-        updateTasks();
+//        updateTasks();
+        getTasks();
     }
 
     /**
@@ -244,38 +257,43 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
      */
     private void addTask(@NonNull Task task) {
 //        tasks.add(task);
-        this.taskViewModel.updateTask(task);
-        updateTasks();
+        this.taskViewModel.createTask(task);
+//        updateTasks(task);
+        getTasks();
     }
 
     /**
      * Updates the list of tasks in the UI
      */
-    private void updateTasks() {
+    private void updateTasks(List<Task> tasks) {
         if (tasks.size() == 0) {
             lblNoTasks.setVisibility(View.VISIBLE);
             listTasks.setVisibility(View.GONE);
         } else {
             lblNoTasks.setVisibility(View.GONE);
             listTasks.setVisibility(View.VISIBLE);
-            switch (sortMethod) {
-                case ALPHABETICAL:
-//                    Collections.sort(tasks, new Task.TaskAZComparator());
-                    taskViewModel.getTasks("OrderByNameAsc");
-                    break;
-                case ALPHABETICAL_INVERTED:
-//                    Collections.sort(tasks, new Task.TaskZAComparator());
-                    taskViewModel.getTasks("OrderByNameDesc");
-                    break;
-                case RECENT_FIRST:
-//                    Collections.sort(tasks, new Task.TaskRecentComparator());
-                    taskViewModel.getTasks("OrderByCreationTimeRecentestFirst");
-                    break;
-                case OLD_FIRST:
-//                    Collections.sort(tasks, new Task.TaskOldComparator());
-                    taskViewModel.getTasks("OrderByCreationTimeOldestFirst");
-                    break;
-            }
+//            switch (sortMethod) {
+//                case ALPHABETICAL:
+////                    Collections.sort(tasks, new Task.TaskAZComparator());
+//                    taskViewModel.getTasksOrderByNameASC();
+//                    allTasks = tasks;
+//                    break;
+//                case ALPHABETICAL_INVERTED:
+////                    Collections.sort(tasks, new Task.TaskZAComparator());
+//                    taskViewModel.getTasksOrderByNameDesc();
+//                    allTasks = tasks;
+//                    break;
+//                case RECENT_FIRST:
+////                    Collections.sort(tasks, new Task.TaskRecentComparator());
+//                    taskViewModel.getTasksOrderByCreationTimeRecentestFirst();
+//                    allTasks = tasks;
+//                    break;
+//                case OLD_FIRST:
+////                    Collections.sort(tasks, new Task.TaskOldComparator());
+//                    taskViewModel.getTasksOrderByCreationTimeOldestFirst();
+//                    allTasks = tasks;
+//                    break;
+//            }
             adapter.updateTasks(tasks);
         }
     }

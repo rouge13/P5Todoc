@@ -37,6 +37,6 @@ public class TaskDataRepository {
     // --- DELETE ---
     public void deleteTask(Task task){ taskDao.deleteTask(task); }
 
-    // --- UPDATE ---
-    public void updateTask(Task task){ taskDao.updateTask(task); }
+//    // --- UPDATE ---
+//    public void updateTask(Task task){ taskDao.updateTask(task); }
 }

@@ -66,6 +66,7 @@ public abstract class SaveMyTaskDatabase extends RoomDatabase {
                     contentValuesProject.put("name", project.getName());
                     contentValuesProject.put("color", project.getColor());
                     db.insert("Project", OnConflictStrategy.IGNORE, contentValuesProject);
+
                 }
                 final long TASK_ID = 1;
 

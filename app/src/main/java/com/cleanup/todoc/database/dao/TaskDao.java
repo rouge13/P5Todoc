@@ -43,9 +43,6 @@ public interface TaskDao {
     @Query("SELECT * FROM Task ORDER BY creationTimestamp DESC")
     LiveData<List<Task>> getTasksOrderByCreationTimeRecentestFirst();
 
-    @Update
-    int updateTask(Task task);
-
     @Delete
     int deleteTask(Task task);
 }
