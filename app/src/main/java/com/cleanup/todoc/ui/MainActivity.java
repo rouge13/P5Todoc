@@ -32,7 +32,7 @@ import java.util.List;
 
 /**
  * <p>Home activity of the application which is displayed when the user opens the app.</p>
- * <p>Displays the list of tasks.</p>
+ * <p>Displays the list of Tasks.</p>
  *
  * @author Gaëtan HERFRAY
  */
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     private List<Task> allTasks;
 
     /**
-     * List of all current tasks of the application
+     * List of all current Tasks of the application
      */
     @NonNull
     private final ArrayList<Task> tasks = new ArrayList<>();
@@ -121,6 +121,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
 
     // -- Get all the tasks without ordering
     private void getTasks() {
+        this.taskViewModel.getTasks().removeObserver(this::updateTasks);
         this.taskViewModel.getTasks().observe(this, this::updateTasks);
     }
 
@@ -162,19 +163,22 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         if (id == R.id.filter_alphabetical) {
             sortMethod = SortMethod.ALPHABETICAL;
 //            taskViewModel.getTasksOrderByNameASC();
+//            System.out.print("Tri nom ABC");
         } else if (id == R.id.filter_alphabetical_inverted) {
             sortMethod = SortMethod.ALPHABETICAL_INVERTED;
 //            taskViewModel.getTasksOrderByNameDesc();
+//            System.out.print("Tri nom zyx");
         } else if (id == R.id.filter_oldest_first) {
             sortMethod = SortMethod.OLD_FIRST;
 //            taskViewModel.getTasksOrderByCreationTimeOldestFirst();
+//            System.out.print("Tri Oldest");
         } else if (id == R.id.filter_recent_first) {
             sortMethod = SortMethod.RECENT_FIRST;
 //            taskViewModel.getTasksOrderByCreationTimeRecentestFirst();
+//            System.out.print("Tri Recentest");
         }
-
-        updateTasks();
-//        getTasks();
+//        updateTasks();
+        getTasks();
 
         return super.onOptionsItemSelected(item);
     }
@@ -182,9 +186,9 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     @Override
     public void onDeleteTask(Task task) {
 //        tasks.remove(task);
-        this.taskViewModel.deleteTask(task);
+        taskViewModel.deleteTask(task);
 //        updateTasks();
-        getTasks();
+//        getTasks();
     }
 
     /**
@@ -197,13 +201,11 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         if (dialogEditText != null && dialogSpinner != null) {
             // Get the name of the task
             String taskName = dialogEditText.getText().toString();
-
             // Get the selected project to be associated to the task
             Project taskProject = null;
             if (dialogSpinner.getSelectedItem() instanceof Project) {
                 taskProject = (Project) dialogSpinner.getSelectedItem();
             }
-
             // If a name has not been set
             if (taskName.trim().isEmpty()) {
                 dialogEditText.setError(getString(R.string.empty_task_name));
@@ -212,17 +214,13 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
             else if (taskProject != null) {
                 // TODO: Replace this by id of persisted task
                 long id = 0L;
-
-
                 Task task = new Task(
                         id,
                         taskProject.getId(),
                         taskName,
                         new Date().getTime()
                 );
-
                 addTask(task);
-
                 dialogInterface.dismiss();
             }
             // If name has been set, but project has not been set (this should never occur)
@@ -259,7 +257,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
 //        tasks.add(task);
         this.taskViewModel.createTask(task);
 //        updateTasks(task);
-        getTasks();
+//        getTasks();
     }
 
     /**
@@ -272,28 +270,20 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         } else {
             lblNoTasks.setVisibility(View.GONE);
             listTasks.setVisibility(View.VISIBLE);
-//            switch (sortMethod) {
-//                case ALPHABETICAL:
-////                    Collections.sort(tasks, new Task.TaskAZComparator());
-//                    taskViewModel.getTasksOrderByNameASC();
-//                    allTasks = tasks;
-//                    break;
-//                case ALPHABETICAL_INVERTED:
-////                    Collections.sort(tasks, new Task.TaskZAComparator());
-//                    taskViewModel.getTasksOrderByNameDesc();
-//                    allTasks = tasks;
-//                    break;
-//                case RECENT_FIRST:
-////                    Collections.sort(tasks, new Task.TaskRecentComparator());
-//                    taskViewModel.getTasksOrderByCreationTimeRecentestFirst();
-//                    allTasks = tasks;
-//                    break;
-//                case OLD_FIRST:
-////                    Collections.sort(tasks, new Task.TaskOldComparator());
-//                    taskViewModel.getTasksOrderByCreationTimeOldestFirst();
-//                    allTasks = tasks;
-//                    break;
-//            }
+            switch (sortMethod) {
+                case ALPHABETICAL:
+                    Collections.sort(tasks, new Task.TaskAZComparator());
+                    break;
+                case ALPHABETICAL_INVERTED:
+                    Collections.sort(tasks, new Task.TaskZAComparator());
+                    break;
+                case RECENT_FIRST:
+                    Collections.sort(tasks, new Task.TaskRecentComparator());
+                    break;
+                case OLD_FIRST:
+                    Collections.sort(tasks, new Task.TaskOldComparator());
+                    break;
+            }
             adapter.updateTasks(tasks);
         }
     }

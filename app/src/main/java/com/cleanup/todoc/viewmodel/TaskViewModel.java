@@ -27,18 +27,18 @@ public class TaskViewModel extends ViewModel {
     @Nullable
     private LiveData<List<Project>> mProjects;
     // For Tasks sorted
-    public LiveData<List<Task>> getTasksOrderByNameASC() {
-        return taskDataSource.getTasksOrderByNameASC();
-    }
-    public LiveData<List<Task>> getTasksOrderByNameDesc() {
-        return taskDataSource.getTasksOrderByNameDesc();
-    }
-    public LiveData<List<Task>> getTasksOrderByCreationTimeRecentestFirst() {
-        return taskDataSource.getTasksOrderByCreationTimeRecentestFirst();
-    }
-    public LiveData<List<Task>> getTasksOrderByCreationTimeOldestFirst() {
-        return taskDataSource.getTasksOrderByCreationTimeOldestFirst();
-    }
+//    public LiveData<List<Task>> getTasksOrderByNameASC() {
+//        return taskDataSource.getTasksOrderByNameASC();
+//    }
+//    public LiveData<List<Task>> getTasksOrderByNameDesc() {
+//        return taskDataSource.getTasksOrderByNameDesc();
+//    }
+//    public LiveData<List<Task>> getTasksOrderByCreationTimeRecentestFirst() {
+//        return taskDataSource.getTasksOrderByCreationTimeRecentestFirst();
+//    }
+//    public LiveData<List<Task>> getTasksOrderByCreationTimeOldestFirst() {
+//        return taskDataSource.getTasksOrderByCreationTimeOldestFirst();
+//    }
 
     public TaskViewModel(ProjectDataRepository projectDataSource, TaskDataRepository taskDataSource, Executor executor) {
         this.projectDataSource = projectDataSource;

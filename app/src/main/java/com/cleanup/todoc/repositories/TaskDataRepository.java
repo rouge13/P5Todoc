@@ -23,13 +23,13 @@ public class TaskDataRepository {
 
     public LiveData<List<Task>> getTasks() {return this.taskDao.getTasks();}
 
-    public LiveData<List<Task>> getTasksOrderByNameASC() {return this.taskDao.getTasksOrderByNameASC();}
-
-    public LiveData<List<Task>> getTasksOrderByNameDesc() {return this.taskDao.getTasksOrderByNameDesc();}
-
-    public LiveData<List<Task>> getTasksOrderByCreationTimeOldestFirst() {return this.taskDao.getTasksOrderByCreationTimeOldestFirst();}
-
-    public LiveData<List<Task>> getTasksOrderByCreationTimeRecentestFirst() {return this.taskDao.getTasksOrderByCreationTimeRecentestFirst();}
+//    public LiveData<List<Task>> getTasksOrderByNameASC() {return this.taskDao.getTasksOrderByNameASC();}
+//
+//    public LiveData<List<Task>> getTasksOrderByNameDesc() {return this.taskDao.getTasksOrderByNameDesc();}
+//
+//    public LiveData<List<Task>> getTasksOrderByCreationTimeOldestFirst() {return this.taskDao.getTasksOrderByCreationTimeOldestFirst();}
+//
+//    public LiveData<List<Task>> getTasksOrderByCreationTimeRecentestFirst() {return this.taskDao.getTasksOrderByCreationTimeRecentestFirst();}
 
     // --- CREATE ---
     public void createTask(Task task){ taskDao.createTask(task); }
