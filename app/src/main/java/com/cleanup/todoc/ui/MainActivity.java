@@ -40,9 +40,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
     /**
      * List of all projects available in the application
      */
-//    private final Project[] allProjects = Project.getAllProjects();
     private List<Project> allProjects;
-    private List<Task> allTasks;
 
     /**
      * List of all current Tasks of the application
@@ -97,7 +95,6 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
 
     // 1 - FOR DATA
     private TaskViewModel taskViewModel;
-//    private TasksAdapter mAdapterViewModel;
 
     // -------------------
     // DATA
@@ -124,8 +121,6 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
         this.taskViewModel.getTasks().removeObserver(this::updateTasks);
         this.taskViewModel.getTasks().observe(this, this::updateTasks);
     }
-
-//    private void getTasks
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -162,22 +157,13 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
 
         if (id == R.id.filter_alphabetical) {
             sortMethod = SortMethod.ALPHABETICAL;
-//            taskViewModel.getTasksOrderByNameASC();
-//            System.out.print("Tri nom ABC");
         } else if (id == R.id.filter_alphabetical_inverted) {
             sortMethod = SortMethod.ALPHABETICAL_INVERTED;
-//            taskViewModel.getTasksOrderByNameDesc();
-//            System.out.print("Tri nom zyx");
         } else if (id == R.id.filter_oldest_first) {
             sortMethod = SortMethod.OLD_FIRST;
-//            taskViewModel.getTasksOrderByCreationTimeOldestFirst();
-//            System.out.print("Tri Oldest");
         } else if (id == R.id.filter_recent_first) {
             sortMethod = SortMethod.RECENT_FIRST;
-//            taskViewModel.getTasksOrderByCreationTimeRecentestFirst();
-//            System.out.print("Tri Recentest");
         }
-//        updateTasks();
         getTasks();
 
         return super.onOptionsItemSelected(item);
@@ -185,10 +171,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
 
     @Override
     public void onDeleteTask(Task task) {
-//        tasks.remove(task);
         taskViewModel.deleteTask(task);
-//        updateTasks();
-//        getTasks();
     }
 
     /**
@@ -228,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
                 dialogInterface.dismiss();
             }
         }
-        // If dialog is aloready closed
+        // If dialog is already closed
         else {
             dialogInterface.dismiss();
         }
@@ -254,10 +237,7 @@ public class MainActivity extends AppCompatActivity implements TasksAdapter.Dele
      * @param task the task to be added to the list
      */
     private void addTask(@NonNull Task task) {
-//        tasks.add(task);
         this.taskViewModel.createTask(task);
-//        updateTasks(task);
-//        getTasks();
     }
 
     /**
