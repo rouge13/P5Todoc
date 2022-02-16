@@ -33,89 +33,54 @@ public class MainActivityInstrumentedTest {
     public ActivityTestRule<MainActivity> rule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void addAndRemoveTask() {
-        MainActivity activity = rule.getActivity();
-        TextView lblNoTask = activity.findViewById(R.id.lbl_no_task);
-        RecyclerView listTasks = activity.findViewById(R.id.list_tasks);
-
-        onView(withId(R.id.fab_add_task)).perform(click());
-        onView(withId(R.id.txt_task_name)).perform(replaceText("Tâche example"));
-        onView(withId(android.R.id.button1)).perform(click());
-
-        // Check that lblTask is not displayed anymore
-        assertThat(lblNoTask.getVisibility(), equalTo(View.GONE));
-        // Check that recyclerView is displayed
-        assertThat(listTasks.getVisibility(), equalTo(View.VISIBLE));
-        // Check that it contains one element only
-        assertThat(listTasks.getAdapter().getItemCount(), equalTo(1));
-
-        onView(withId(R.id.img_delete)).perform(click());
-
-        // Check that lblTask is displayed
-        assertThat(lblNoTask.getVisibility(), equalTo(View.VISIBLE));
-        // Check that recyclerView is not displayed anymore
-        assertThat(listTasks.getVisibility(), equalTo(View.GONE));
-    }
-
-    @Test
     public void sortTasks() {
         MainActivity activity = rule.getActivity();
 
-        onView(withId(R.id.fab_add_task)).perform(click());
-        onView(withId(R.id.txt_task_name)).perform(replaceText("aaa Tâche example"));
-        onView(withId(android.R.id.button1)).perform(click());
-        onView(withId(R.id.fab_add_task)).perform(click());
-        onView(withId(R.id.txt_task_name)).perform(replaceText("zzz Tâche example"));
-        onView(withId(android.R.id.button1)).perform(click());
-        onView(withId(R.id.fab_add_task)).perform(click());
-        onView(withId(R.id.txt_task_name)).perform(replaceText("hhh Tâche example"));
-        onView(withId(android.R.id.button1)).perform(click());
-
         onView(withRecyclerView(R.id.list_tasks).atPositionOnView(0, R.id.lbl_task_name))
-                .check(matches(withText("aaa Tâche example")));
+                .check(matches(withText("TestTaskAdded")));
         onView(withRecyclerView(R.id.list_tasks).atPositionOnView(1, R.id.lbl_task_name))
-                .check(matches(withText("zzz Tâche example")));
+                .check(matches(withText("Alerter")));
         onView(withRecyclerView(R.id.list_tasks).atPositionOnView(2, R.id.lbl_task_name))
-                .check(matches(withText("hhh Tâche example")));
+                .check(matches(withText("Bonjour")));
 
         // Sort alphabetical
         onView(withId(R.id.action_filter)).perform(click());
         onView(withText(R.string.sort_alphabetical)).perform(click());
         onView(withRecyclerView(R.id.list_tasks).atPositionOnView(0, R.id.lbl_task_name))
-                .check(matches(withText("aaa Tâche example")));
+                .check(matches(withText("Alerter")));
         onView(withRecyclerView(R.id.list_tasks).atPositionOnView(1, R.id.lbl_task_name))
-                .check(matches(withText("hhh Tâche example")));
+                .check(matches(withText("Bonjour")));
         onView(withRecyclerView(R.id.list_tasks).atPositionOnView(2, R.id.lbl_task_name))
-                .check(matches(withText("zzz Tâche example")));
+                .check(matches(withText("TestTaskAdded")));
 
         // Sort alphabetical inverted
         onView(withId(R.id.action_filter)).perform(click());
         onView(withText(R.string.sort_alphabetical_invert)).perform(click());
         onView(withRecyclerView(R.id.list_tasks).atPositionOnView(0, R.id.lbl_task_name))
-                .check(matches(withText("zzz Tâche example")));
+                .check(matches(withText("TestTaskAdded")));
         onView(withRecyclerView(R.id.list_tasks).atPositionOnView(1, R.id.lbl_task_name))
-                .check(matches(withText("hhh Tâche example")));
+                .check(matches(withText("Bonjour")));
         onView(withRecyclerView(R.id.list_tasks).atPositionOnView(2, R.id.lbl_task_name))
-                .check(matches(withText("aaa Tâche example")));
+                .check(matches(withText("Alerter")));
 
         // Sort old first
         onView(withId(R.id.action_filter)).perform(click());
         onView(withText(R.string.sort_oldest_first)).perform(click());
         onView(withRecyclerView(R.id.list_tasks).atPositionOnView(0, R.id.lbl_task_name))
-                .check(matches(withText("aaa Tâche example")));
+                .check(matches(withText("TestTaskAdded")));
         onView(withRecyclerView(R.id.list_tasks).atPositionOnView(1, R.id.lbl_task_name))
-                .check(matches(withText("zzz Tâche example")));
+                .check(matches(withText("Alerter")));
         onView(withRecyclerView(R.id.list_tasks).atPositionOnView(2, R.id.lbl_task_name))
-                .check(matches(withText("hhh Tâche example")));
+                .check(matches(withText("Bonjour")));
 
         // Sort recent first
         onView(withId(R.id.action_filter)).perform(click());
         onView(withText(R.string.sort_recent_first)).perform(click());
         onView(withRecyclerView(R.id.list_tasks).atPositionOnView(0, R.id.lbl_task_name))
-                .check(matches(withText("hhh Tâche example")));
+                .check(matches(withText("Bonjour")));
         onView(withRecyclerView(R.id.list_tasks).atPositionOnView(1, R.id.lbl_task_name))
-                .check(matches(withText("zzz Tâche example")));
+                .check(matches(withText("Alerter")));
         onView(withRecyclerView(R.id.list_tasks).atPositionOnView(2, R.id.lbl_task_name))
-                .check(matches(withText("aaa Tâche example")));
+                .check(matches(withText("TestTaskAdded")));
     }
 }

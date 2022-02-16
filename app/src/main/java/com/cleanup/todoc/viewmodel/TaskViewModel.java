@@ -26,19 +26,6 @@ public class TaskViewModel extends ViewModel {
     //-- DATA --
     @Nullable
     private LiveData<List<Project>> mProjects;
-    // For Tasks sorted
-//    public LiveData<List<Task>> getTasksOrderByNameASC() {
-//        return taskDataSource.getTasksOrderByNameASC();
-//    }
-//    public LiveData<List<Task>> getTasksOrderByNameDesc() {
-//        return taskDataSource.getTasksOrderByNameDesc();
-//    }
-//    public LiveData<List<Task>> getTasksOrderByCreationTimeRecentestFirst() {
-//        return taskDataSource.getTasksOrderByCreationTimeRecentestFirst();
-//    }
-//    public LiveData<List<Task>> getTasksOrderByCreationTimeOldestFirst() {
-//        return taskDataSource.getTasksOrderByCreationTimeOldestFirst();
-//    }
 
     public TaskViewModel(ProjectDataRepository projectDataSource, TaskDataRepository taskDataSource, Executor executor) {
         this.projectDataSource = projectDataSource;
@@ -64,18 +51,6 @@ public class TaskViewModel extends ViewModel {
     // -------------
 
     public LiveData<List<Task>> getTasks() {
-//        switch (choiceSelected) {
-//            case "NoSorting":
-//                return taskDataSource.getTasks();
-//            case "OrderByNameAsc":
-//                return taskDataSource.getTasksOrderByNameASC();
-//            case "OrderByNameDesc":
-//                return taskDataSource.getTasksOrderByNameDesc();
-//            case "OrderByCreationTimeOldestFirst":
-//                return taskDataSource.getTasksOrderByCreationTimeOldestFirst();
-//            case "OrderByCreationTimeRecentestFirst":
-//                return taskDataSource.getTasksOrderByCreationTimeRecentestFirst();
-//        }
         return taskDataSource.getTasks();
     }
 
@@ -88,35 +63,4 @@ public class TaskViewModel extends ViewModel {
     public void deleteTask(Task task) {
         executor.execute(() -> taskDataSource.deleteTask(task));
     }
-
-//    public void updateTask(Task task) {
-//        executor.execute(() -> taskDataSource.updateTask(task));
-//    }
-
-    /**
-     * List of all possible sort methods for task
-     */
-    private enum SortMethod {
-        /**
-         * Sort alphabetical by name
-         */
-        ALPHABETICAL,
-        /**
-         * Inverted sort alphabetical by name
-         */
-        ALPHABETICAL_INVERTED,
-        /**
-         * Lastly created first
-         */
-        RECENT_FIRST,
-        /**
-         * First created first
-         */
-        OLD_FIRST,
-        /**
-         * No sort
-         */
-        NONE
-    }
-
 }

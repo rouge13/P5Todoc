@@ -41,7 +41,6 @@ public abstract class SaveMyTaskDatabase extends RoomDatabase {
                             SaveMyTaskDatabase.class, DB_NAME)
                             .addCallback(prepopulateDatabase())
                             .build();
-
                 }
             }
         }
@@ -53,12 +52,6 @@ public abstract class SaveMyTaskDatabase extends RoomDatabase {
             @Override
             public void onCreate(@NonNull SupportSQLiteDatabase db) {
                 super.onCreate(db);
-//                Executors.newSingleThreadExecutor().execute(() -> INSTANCE.taskDao().createTask(new Task(6, 1L, "TestDatabase",1643104690)));
-//                private static final long PROJECT_ID = 1L;
-//                private static final Project PROJECT_DEMO = new Project(PROJECT_ID, "Projet Champion", 0xFFEADAD1);
-//                // DATA SET FOR TEST
-//                private static final long TASK_ID = 1;
-//                private static final Task TASK_DEMO = new Task(TASK_ID,1L, "TestInstrument", 1643104690);
                 Project[] projects = Project.getAllProjects();
                 for (Project project : projects) {
                     ContentValues contentValuesProject = new ContentValues();
@@ -69,8 +62,6 @@ public abstract class SaveMyTaskDatabase extends RoomDatabase {
 
                 }
                 final long TASK_ID = 1;
-
-//                final Task TASK_DEMO = new Task(TASK_ID,1L, "TestInstrument", 1643104690);
 
                 ContentValues contentValuesTask = new ContentValues();
                 contentValuesTask.put("id", TASK_ID);

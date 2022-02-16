@@ -33,19 +33,8 @@ public class TaskDaoTest {
         // DATA SET FOR TEST
         private static final Task TASK_DEMO = new Task(1,PROJECT_ID, "TestInstrument", 1643104690);
 
-//        @Test
-//        public void insertAndGetProject() throws InterruptedException {
-//                // BEFORE : Adding a new project
-//                this.database.projectDao().createProject(PROJECT_DEMO);
-//                // TEST
-//                Project project = LiveDataTestUtil.getValue(this.database.projectDao().getProject(PROJECT_ID));
-//                assertTrue(project.getName().equals(PROJECT_DEMO.getName()) && project.getId() == PROJECT_ID);
-//        }
-
         @Test
         public void insertAndGetTask() throws InterruptedException {
-                // BEFORE : Adding a new task
-//                this.database.projectDao().createProject(PROJECT_DEMO);
                 this.database.taskDao().createTask(TASK_DEMO);
                 // TEST
                 List<Task> tasks = LiveDataTestUtil.getValue(this.database.taskDao().getTask(PROJECT_ID));
@@ -61,19 +50,13 @@ public class TaskDaoTest {
 
         @Test
         public void insertAndDeleteItem() throws InterruptedException {
-
-//                this.database.projectDao().createProject(PROJECT_DEMO);
                 this.database.taskDao().createTask(TASK_DEMO);
-
                 // TEST
                 List<Task> tasks = LiveDataTestUtil.getValue(this.database.taskDao().getTask(PROJECT_ID));
                 assertEquals(1, tasks.size());
                 this.database.taskDao().deleteTask(tasks.remove(0));
-
                 //TEST
                 assertTrue(tasks.isEmpty());
-
-
         }
 
         // FOR DATA
@@ -88,7 +71,6 @@ public class TaskDaoTest {
                     SaveMyTaskDatabase.class)
                     .allowMainThreadQueries()
                     .build();
-//            this.database = SaveMyTaskDatabase.getInstance(InstrumentationRegistry.getContext());
             this.database.projectDao().createProject(PROJECT_DEMO);
         }
 
