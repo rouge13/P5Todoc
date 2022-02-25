@@ -35,10 +35,11 @@ public class TaskDaoTest {
 
         @Test
         public void insertAndGetTask() throws InterruptedException {
+
                 this.database.taskDao().createTask(TASK_DEMO);
                 // TEST
                 List<Task> tasks = LiveDataTestUtil.getValue(this.database.taskDao().getTask(PROJECT_ID));
-                assertEquals(1, tasks.size());
+                assertTrue(tasks.contains(TASK_DEMO));
         }
 
         @Test
@@ -53,7 +54,7 @@ public class TaskDaoTest {
                 this.database.taskDao().createTask(TASK_DEMO);
                 // TEST
                 List<Task> tasks = LiveDataTestUtil.getValue(this.database.taskDao().getTask(PROJECT_ID));
-                assertEquals(1, tasks.size());
+                assertTrue(tasks.contains(TASK_DEMO));
                 this.database.taskDao().deleteTask(tasks.remove(0));
                 //TEST
                 assertTrue(tasks.isEmpty());
